@@ -240,7 +240,6 @@ public class LoginController implements Initializable {
     }
     
     boolean checkMark = false;
-    public class
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
