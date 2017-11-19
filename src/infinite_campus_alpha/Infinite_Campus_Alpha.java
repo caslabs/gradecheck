@@ -5,6 +5,7 @@
  */
 package infinite_campus_alpha;
 
+import infinite_campus_alpha.login_Frame.LoginController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -47,7 +48,8 @@ stage.initStyle(StageStyle.TRANSPARENT);
 
         FXMLLoader loader = new FXMLLoader(
           getClass().getResource(
-            "LoginFrame.fxml"
+            "login_Frame/LoginFrame.fxml"
+                  
           )
         );
 
@@ -57,8 +59,11 @@ stage.initStyle(StageStyle.TRANSPARENT);
           )
         );
 
+        /*
         LoginController controller = 
           loader.<LoginController>getController();
+        */
+        LoginController controller = (LoginController) loader.getController();
         controller.registerStage(stage);
 
         stage.show();
