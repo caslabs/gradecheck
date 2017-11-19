@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.awt.Desktop;
+import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -44,10 +45,41 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import java.util.Set;
 import java.util.TreeSet;
-///import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.PathTransitionBuilder;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.PathBuilder;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 /**
@@ -55,7 +87,29 @@ import java.sql.SQLException;
  * @author jeraldy
  */
 public class LoginController implements Initializable {
+    @FXML
+    private Rectangle userLine;
+    @FXML
+    private Text testBox1;
+    @FXML
+    private Text testBox;
+    @FXML
+    private StackPane stack;
+    @FXML
+    private Rectangle rect;
+    @FXML
+    private Label userLabel;
     
+    @FXML
+    private ImageView exitButton;
+    
+    @FXML
+    private Rectangle sceneBar;
+    
+    @FXML
+    private Pane pane2;
+    @FXML
+    private Pane pane1;
     
     @FXML
     private TextField username;
@@ -79,14 +133,62 @@ public class LoginController implements Initializable {
     private Button LoginButton;
     
     @FXML
-    private Label QuoteLabel;
-    
+    private AnchorPane butroot;
+            
     Element student;
     
-    @FXML
-    private void Logging(ActionEvent event) throws IOException {
 
+
+
+    @FXML
+    private void Logging(ActionEvent e) throws IOException {
         
+        /**
+                LoginButton.setOnMouseMoved(new EventHandler<javafx.scene.input.MouseEvent>() {
+            public void handle(javafx.scene.input.MouseEvent me) {
+                //log mouse move to console, method listed below
+                System.out.println("Mouse moved, x: " + me.getX() + ", y: " + me.getY() );
+            }
+        });
+        * **/
+        
+        LoginButton.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+            public void handle(javafx.scene.input.MouseEvent me) {
+                //the event will be passed only to the circle which is on front
+                Circle circle = new Circle(10.0, Color.BLUE);
+                circle.setCenterX(me.getX());
+                circle.setCenterY(me.getY());  
+               
+                System.out.println(butroot.getLayoutBounds());
+                final FadeTransition ft = new FadeTransition(Duration.millis(300), circle);
+                         ft.setFromValue(1.0);
+                         ft.setToValue(0.0);
+                        ft.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            butroot.getChildren().remove(circle);
+                        }
+                        });
+               
+                     ScaleTransition st = new ScaleTransition(Duration.millis(220), circle);
+                     st.setByX(1.38f);
+                     st.setByY(1.38f);
+                     st.setCycleCount((int) 1.0);
+                     st.setAutoReverse(true);
+                     st.setOnFinished(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent event) {
+			ft.play();
+		};
+                     });   
+                     st.play();
+                     butroot.getChildren().add(circle);
+            }
+                });
+                
+        
+        
+        
+        /**
         if (username.getText().trim().isEmpty() || password.getText().trim().isEmpty()) {
             statusCode.setText("Login Failed! Please fill out both username & password");
         } else {
@@ -225,6 +327,7 @@ public class LoginController implements Initializable {
                 statusCode.setText("Login Failed! Invalid credentials");
             }
     }
+    **/
     }
     
     @FXML
@@ -239,11 +342,109 @@ public class LoginController implements Initializable {
         
     }
     
+           
+    
+           
     boolean checkMark = false;
+    
+    
+    public void registerStage(Stage stage) {
+  EffectUtilities.makeDraggable(stage, sceneBar);
+    }
+    
+    public void ExitScene() {
+        
+        final FadeTransition ft = new FadeTransition(Duration.millis(1000), rootpane);
+        
+                         ft.setFromValue(1.0);
+                         ft.setToValue(0.0);
+                        ft.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            Platform.exit();
+                        }
+                        });
+                        ft.play();
+                        
+                RotateTransition rt = new RotateTransition(Duration.millis(500), exitButton);
+                rt.setByAngle(180);
+                rt.setCycleCount(4);
+                rt.setAutoReverse(true);
+ 
+     rt.play();
+    }
+    
+private PathTransition pathTransition;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
-    
+        //disable field write init
+        Platform.runLater( () -> loginScene.requestFocus() );
+        
+        ScaleTransition test = new ScaleTransition(Duration.millis(4000), pane1);
+                     test.setByY(0.5f);
+                     test.setCycleCount(Animation.INDEFINITE);
+                     test.setAutoReverse(true);
+        
+                     
+        ScaleTransition test1 = new ScaleTransition(Duration.millis(4000), pane2);
+                     test1.setByY(0.5f);
+                     test1.setCycleCount(Animation.INDEFINITE);
+                     test1.setAutoReverse(true);
+                     
+   test.play();
+   test1.play();
+   
+                        ScaleTransition st = new ScaleTransition(Duration.millis(2220), userLine);
+                     st.setByX(1.38f);
+                     st.setByY(1.38f);
+                     st.setCycleCount((int) 1.0);
+                     st.setAutoReverse(true);
+                     
+   username.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+            public void handle(javafx.scene.input.MouseEvent me) {
+                //the event will be passed only to the circle which is on front
+
+            final Timeline timeline = new Timeline();
+            timeline.setCycleCount(1);
+            timeline.setAutoReverse(true);
+            final KeyValue kv = new KeyValue(testBox.yProperty(), -29);
+            final KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+            timeline.getKeyFrames().add(kf);
+                       timeline.getKeyFrames().add(kf);
+                        timeline.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            //future reference
+                        }
+                        });
+            timeline.play();
+            
+    }
+   });
+   
+    password.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
+            public void handle(javafx.scene.input.MouseEvent me) {
+                //the event will be passed only to the circle which is on front
+                System.out.println("test");
+             
+                     
+            final Timeline timeline = new Timeline();
+            timeline.setCycleCount(1);
+            timeline.setAutoReverse(true);
+            final KeyValue kv = new KeyValue(testBox1.yProperty(), -29);
+            final KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+            timeline.getKeyFrames().add(kf);
+                        timeline.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+
+                            //future reference
+                        }
+                        });
+            timeline.play();
+
+            
+    }
+   });
+}
 }

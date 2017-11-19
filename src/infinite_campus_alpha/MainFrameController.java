@@ -79,6 +79,8 @@ public class MainFrameController implements Initializable {
     
     
     //init class list in classes tab
+            
+    
     @FXML
     public void initClass(Map<String, String> e, Map<String, Collection<String>> f) {
         
@@ -239,7 +241,6 @@ public class MainFrameController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
     }    
     
     

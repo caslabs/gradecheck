@@ -38,10 +38,14 @@
  * Contributor(s):
  */
 
-
+#FieldAnimation:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
 #button {
     -fx-background-color: #9EC555;
     -fx-font: 15px Verdana;
+    -fx-cursor: hand;
 }
 
 #button:pressed {
@@ -49,5 +53,9 @@
     -fx-font: 14px Verdana;
 }
 
+#exitButton:hover {
+    -fx-opacity: 0.7;
+    
+}
 
 

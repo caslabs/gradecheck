@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -21,12 +22,49 @@ public class Infinite_Campus_Alpha extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        /**
+        FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = FXMLLoader.load(getClass().getResource("LoginFrame.fxml"));
         Scene scene = new Scene(root);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         scene.getStylesheets().add(getClass().getResource("Login.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        LoginController controller = (LoginController) fxmlLoader.getController();
+    controller.registerStage(stage);
+    stage.show();
+
+*/
+        
+
+    
+    stage.initStyle(StageStyle.UNDECORATED);
+stage.initStyle(StageStyle.TRANSPARENT);
+
+        FXMLLoader loader = new FXMLLoader(
+          getClass().getResource(
+            "LoginFrame.fxml"
+          )
+        );
+
+        stage.setScene(
+          new Scene(
+            (Parent) loader.load()
+          )
+        );
+
+        LoginController controller = 
+          loader.<LoginController>getController();
+        controller.registerStage(stage);
+
+        stage.show();
+
+        
+        
     }
 
     /**
