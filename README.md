@@ -1,5 +1,7 @@
-# Infinite_Campus_App
-source files. if you want to run app, @email me and ill send you the full project <br>
+# Infinite Campusify
+This is the source files to infinite campusify.<br>
+
+[Download the beta app!](https://caslabs.github.io/gradecheck-web/pages/index.html)
 ## Preview
 The unmarked box are upcoming features i'm currently working on.
 ### Login Scene
